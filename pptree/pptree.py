@@ -5,6 +5,7 @@ Ettore Forigo (c) 2020
 """
 
 from .utils import *
+import types
 
 
 class Node:
@@ -19,7 +20,10 @@ class Node:
 
 def print_tree(current_node, childattr='children', nameattr='name', horizontal=True):
     if hasattr(current_node, nameattr):
-        name = lambda node: getattr(node, nameattr)
+        if(type(getattr(current_node, nameattr)) == types.MethodType):
+            name = lambda node: getattr(node, nameattr)()
+        else:
+            name = lambda node: getattr(node, nameattr)
     else:
         name = lambda node: str(node)
 
